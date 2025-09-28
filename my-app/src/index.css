@@ -1,0 +1,162 @@
+/* Modern reset + ensure header touches edges */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root{
+    --header-height: 320px;                 /* change this to alter header height */
+    --accent-1: #0f9942;
+    --accent-2: #23633a;
+    --accent-3: #153f25;
+    --glass-alpha: 0.14;
+    --content-max-width: 1200px;
+}
+
+/* Basic reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; width: 100%; font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #fafafa; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+/* Header Container: full width, touches top/left/right */
+header {
+    position: relative;
+    width: 100%;
+    height: var(--header-height);
+    background: url("https://sc0.blr1.digitaloceanspaces.com/large/858990-47643-skxtlkoyqi-1512120739.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    overflow: auto;
+}
+
+/* Overlay: softer gradient + slight blur for modern feel */
+header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+    rgba(15, 153, 66, 0.78),
+    rgba(35, 99, 58, 0.72),
+    rgba(21, 63, 37, 0.72));
+    z-index: 0;
+    backdrop-filter: blur(2px);
+}
+
+/* Inner content container (keeps content centered, not stretched) */
+header > div {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    gap: 1rem;
+}
+
+/* Responsive sizing based on header height */
+.logo img {
+    width: calc(var(--header-height) * 0.14);   /* ~14% of header height */
+    height: calc(var(--header-height) * 0.14);
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    border: 2px solid rgba(255,255,255,0.06);
+}
+
+/* Logo text scales with header height */
+header .logo span {
+    display: inline-block;
+    font-weight: 700;
+    font-size: calc(var(--header-height) * 0.095); /* ~9.5% of header height */
+    line-height: 1;
+    letter-spacing: 0.6px;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+    white-space: nowrap;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    gap: clamp(0.75rem, 1.2vw, 2rem);
+    align-items: center;
+}
+
+nav a {
+    color: rgba(255,255,255,0.95);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: calc(var(--header-height) * 0.06); /* ~6% of header height */
+    padding: 0.3rem 0.1rem;
+    transition: color 220ms ease, transform 220ms ease;
+    transform-origin: center;
+}
+
+nav a:hover {
+    color: var(--accent-1);
+    transform: translateY(-3px);
+    text-shadow: 0 4px 18px rgba(0,0,0,0.35);
+}
+
+/* Buttons — modern glass + shadow */
+header .buttons {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+}
+
+header .buttons button {
+    padding: calc(var(--header-height) * 0.045) calc(var(--header-height) * 0.06); /* responsive padding */
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: calc(var(--header-height) * 0.055);
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    box-shadow: 0 6px 20px rgba(12,12,12,0.25);
+    backdrop-filter: blur(4px);
+}
+
+/* Login = subtle glass */
+header .buttons .login {
+    background: rgba(255,255,255, var(--glass-alpha));
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+header .buttons .login:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+/* Signup = bold accent */
+header .buttons .signup {
+    background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+    color: white;
+    box-shadow: 0 10px 28px rgba(15,153,66,0.28);
+    border: none;
+}
+
+header .buttons .signup:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(180deg, var(--accent-2), var(--accent-3));
+    box-shadow: 0 12px 34px rgba(21,63,37,0.34);
+}
+
+/* Make nav collapse on smaller screens (basic) */
+@media (max-width: 900px) {
+    header > div { padding: 0 1rem; }
+    nav { display: none; } /* hide nav for small screens — replace with hamburger if needed */
+    header .logo span { font-size: calc(var(--header-height) * 0.085); }
+    header .buttons button { font-size: calc(var(--header-height) * 0.05); padding: 0.5rem 0.8rem; }
+}
+
+/* Very small screens: scale header height and font a bit down */
+@media (max-width: 420px) {
+    :root { --header-height: 220px; }
+    header { height: var(--header-height); }
+}
